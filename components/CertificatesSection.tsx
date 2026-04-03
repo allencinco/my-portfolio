@@ -1,51 +1,58 @@
+"use client";
+
 import { Award } from "lucide-react";
+import { useState } from "react";
+
 
 const certificates = [
   {
     id: 1,
-    title: "Full-Stack Web Development",
-    issuer: "Online Learning Platform",
-    date: "2024",
-    description: "Comprehensive certification in modern web development with React and Next.js",
+    title: "Frontend Web Development",
+    issuer: "Udemy",
+    date: "2025",
+    description: "HTML5, CSS3, JavaScript and Bootstrap - Complete frontend development certification",
   },
   {
     id: 2,
-    title: "UI/UX Design Fundamentals",
-    issuer: "Design Academy",
-    date: "2024",
-    description: "Professional certification in user interface and user experience design principles",
+    title: "Bootstrap Mastery",
+    issuer: "Udemy",
+    date: "2025",
+    description: "Build Responsive Websites Like a Pro with advanced Bootstrap techniques",
   },
   {
     id: 3,
-    title: "JavaScript Advanced Programming",
-    issuer: "Tech Institute",
-    date: "2023",
-    description: "Advanced JavaScript programming concepts and best practices",
+    title: "Build 11 JavaScript Applications",
+    issuer: "Learnify IT",
+    date: "2025",
+    description: "JavaScript BootCamp focused on building 11 practical web applications",
   },
   {
     id: 4,
-    title: "Video Editing Certification",
-    issuer: "Media Production School",
-    date: "2023",
-    description: "Professional video editing and post-production techniques",
+    title: "JavaScript Mastery: Basics to Advanced",
+    issuer: "Udemy",
+    date: "2025",
+    description: "Professional expertise in JavaScript from fundamental concepts to advanced patterns",
   },
   {
     id: 5,
-    title: "Graphic Design Professional",
-    issuer: "Creative Skills Academy",
-    date: "2023",
-    description: "Professional graphic design and visual communication certification",
+    title: "Advanced Canva for Video Editing",
+    issuer: "Learnify IT",
+    date: "2025",
+    description: "Complete video editing and content creation for social media platforms",
   },
   {
     id: 6,
-    title: "TypeScript Mastery",
-    issuer: "Code Academy",
-    date: "2024",
-    description: "Complete mastery of TypeScript for scalable application development",
+    title: "MCITS 2023 Participation",
+    issuer: "Philippine Society of Information Technology Educators",
+    date: "2023",
+    description: "Active participation in Mindanao Conference for IT Students - May 5, 2023",
   },
 ];
 
 export default function CertificatesSection() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const displayedCertificates = isExpanded ? certificates : certificates.slice(0, 4);
+
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-lg p-6 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
       <div className="flex items-center gap-3 mb-6">
@@ -54,7 +61,7 @@ export default function CertificatesSection() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {certificates.map((cert) => (
+        {displayedCertificates.map((cert) => (
           <div
             key={cert.id}
             className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
@@ -79,6 +86,31 @@ export default function CertificatesSection() {
           </div>
         ))}
       </div>
+
+      {/* Show More Button */}
+      {!isExpanded && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white font-small rounded-lg transition-colors duration-300"
+          >
+            Show More ({certificates.length - 4} certificates)
+          </button>
+        </div>
+      )}
+
+      {/* Show Less Button */}
+      {isExpanded && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setIsExpanded(false)}
+            className="px-3 py-2 bg-gray-400 hover:bg-gray-500 text-white font-small rounded-lg transition-colors duration-300"
+          >
+            Show Less
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+      

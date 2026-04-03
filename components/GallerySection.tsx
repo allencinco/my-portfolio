@@ -4,9 +4,17 @@ import { useState } from "react";
 import { Images, X } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import cam from "../assets/cam.jpg";
-import profile from "../assets/profile.jpg";
+import game from "../assets/game.jpg";
+import gradpic from "../assets/gradpic.jpg";
+import group from "../assets/group.jpg";
+import hover from "../assets/hover.jpg";
 import kme from "../assets/kme.jpg";
+import otaw from "../assets/otaw.jpg";
+import profile from "../assets/profile.jpg";
+import tao from "../assets/tao.jpg";
 import thai from "../assets/thai.png";
+import webpage from "../assets/webpage.jpg";
+import wed from "../assets/wed.jpg";
 
 type GalleryImage = {
   id: number;
@@ -18,48 +26,87 @@ type GalleryImage = {
 const galleryImages: GalleryImage[] = [
   {
     id: 1,
-    title: "Freelance photography",
+    title: "Photography",
     src: profile,
-    alt: "Freelance photography sample",
+    alt: "Profile photography",
   },
   {
     id: 2,
-    title: "Design Work",
+    title: "Video Production",
     src: thai,
-    alt: "Design work 1",
+    alt: "Video production",
   },
   {
     id: 3,
-    title: "UI/UX Design",
+    title: "Cultural",
     src: kme,
-    alt: "UI/UX design 1",
+    alt: "Cultural",
   },
   {
     id: 4,
-    title: "Photography",
-    src: "/gallery/photo1.jpg",
-    alt: "Photography 1",
+    title: "Event Coverage",
+    src: group,
+    alt: "Group event",
   },
   {
     id: 5,
-    title: "Video Editing",
-    src: "/gallery/video1.jpg",
-    alt: "Video work 1",
+    title: "Photography",
+    src: cam,
+    alt: "Professional photography",
   },
   {
     id: 6,
+    title: "Game Development",
+    src: game,
+    alt: "Game project",
+  },
+  {
+    id: 7,
+    title: "Graduation",
+    src: gradpic,
+    alt: "Graduation photo",
+  },
+  {
+    id: 8,
+    title: "Web Design",
+    src: webpage,
+    alt: "Web design project",
+  },
+  {
+    id: 9,
     title: "Creative Work",
-    src: "/gallery/creative1.jpg",
-    alt: "Creative work 1",
+    src: tao,
+    alt: "Creative project",
+  },
+  {
+    id: 10,
+    title: "Photography",
+    src: otaw,
+    alt: "Nature photography",
+  },
+  {
+    id: 11,
+    title: "Video Production",
+    src: wed,
+    alt: "Wedding video",
+  },
+  {
+    id: 12,
+    title: "Photo Editing",
+    src: hover,
+    alt: "Edited photo",
   },
 ];
 
 export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const selected = galleryImages.find(
     (img) => img.id === selectedImage
   );
+
+  const displayedImages = isExpanded ? galleryImages : galleryImages.slice(0, 8);
 
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-lg p-6 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
@@ -73,19 +120,19 @@ export default function GallerySection() {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 gap-4">
-        {galleryImages.map((img) => (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {displayedImages.map((img) => (
           <div
             key={img.id}
             onClick={() => setSelectedImage(img.id)}
-            className="relative group rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-square cursor-pointer transition-transform duration-300 hover:scale-105"
+            className="relative group rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-square cursor-pointer transition-transform duration-300 hover:scale-105"
           >
             <Image
               src={img.src}
               alt={img.alt}
               fill
               quality={100}
-              priority={img.id === 1} // preload first image
+              priority={img.id === 1}
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               className="object-cover contrast-110 saturate-110 transition-all duration-300 group-hover:scale-110"
               placeholder="empty"
@@ -100,6 +147,30 @@ export default function GallerySection() {
           </div>
         ))}
       </div>
+
+      {/* Show More Button */}
+      {!isExpanded && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="px-3 py-2 bg-blue-400 hover:bg-blue-700 text-white font-small rounded-lg transition-colors duration-300"
+          >
+            Show More ({galleryImages.length - 8} photos)
+          </button>
+        </div>
+      )}
+
+      {/* Show Less Button */}
+      {isExpanded && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setIsExpanded(false)}
+            className="px-3 py-2 bg-gray-400 hover:bg-gray-500 text-white font-small rounded-lg transition-colors duration-300"
+          >
+            Show Less
+          </button>
+        </div>
+      )}
 
       {/* 🔥 HD Lightbox Modal */}
       {selected && (
